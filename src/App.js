@@ -10,6 +10,7 @@ import AuthContext from './store/authContext'
 import ResponsiveAppBar from './components/ResponsiveAppBar';
 import SignInSide from './components/Login';
 import SignUp from './components/SignUp';
+import Featured from './components/Featured';
 
 import { createTheme, colors, ThemeProvider } from '@mui/material';
 
@@ -32,6 +33,7 @@ function App() {
           <Route path='/auth' element={<SignInSide/>}/>
           <Route path='/' element={authCtx.token ? <Home/> : <Navigate to='/auth'/>}/>
           <Route path='/favorites' element={authCtx.token ? <Favorites/> : <Navigate to='/auth'/>}/>
+          <Route path='/featured' element={authCtx.token ? <Featured/> : <Navigate to='/auth'/>}/>
           {/* <Route path='/profile' element={authCtx.token ?<Profile/> : <Navigate to='/auth'/>}/> */}
           <Route path='/imagedetails/:id' element={authCtx.token ?<ImageDetails/> : <Navigate to='/auth'/>}/>
         </Routes>

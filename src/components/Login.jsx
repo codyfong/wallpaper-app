@@ -19,6 +19,7 @@ import axios from 'axios'
 import serverURL from '../url'
 import { useNavigate } from 'react-router-dom'
 
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -32,7 +33,12 @@ function Copyright(props) {
   );
 }
 
-const theme = createTheme();
+const theme = createTheme({
+  palette:{
+    mode: 'dark',
+
+  }
+});
 
 export default function SignInSide() {
   const {login} = useContext(AuthContext)
@@ -56,9 +62,9 @@ export default function SignInSide() {
     axios.post(`${url}/login`, body)
         .then((res) => {
             const {token, exp, userId} = res.data
-            console.log('AFTER AUTH', res.data)
+            // console.log('AFTER AUTH', res.data)
             login(token, exp, userId)
-            navigate('/')
+            navigate('/featured')
         })
         .catch(err => {
             // setPassword('')
@@ -70,6 +76,7 @@ export default function SignInSide() {
   };
 
   return (
+    
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
@@ -97,9 +104,9 @@ export default function SignInSide() {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
-            </Avatar>
+            </Avatar> */}
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
@@ -141,7 +148,7 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
+              {/* <Copyright sx={{ mt: 5 }} /> */}
             </Box>
           </Box>
         </Grid>

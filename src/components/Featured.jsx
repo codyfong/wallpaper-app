@@ -2,30 +2,31 @@ import axios from 'axios'
 import {useState, useContext, useEffect} from 'react'
 import AuthContext from '../store/authContext'
 import serverURL from '../url'
-import FavoriteImageCard from './favoriteComponents/favoriteImageCard'
+import ImageCard from './homeComponents/imageCard'
 
 import * as React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Grid from '@mui/material/Grid';
 import { Paper, Typography } from '@mui/material'
-const Favorites = () => {
-    const {userId, token, username} = useContext(AuthContext)
+const Featured = () => {
+    const {userId, token} = useContext(AuthContext)
     const [images, setImages] = useState([])
     const [imageObjectArray, setImageObjectArray] = useState([])
     const [refreshImage, setRefreshImage] = useState(false)
 
-    const getImages = async () => {
-        await axios
-        .post(`${serverURL}/favorites`, {userId}, {
+    const getImages = () => {
+        axios
+        .post(`${serverURL}/featured`, {
             headers: {
                 authorization: token
             }
         })
         .then((res) => {
-            // console.log('imageobjectarray', res.data)
+            // console.log('images object', res.data)
             setImageObjectArray(res.data)
-            setImages(res.data.map((image) => image.image_properties))
+
+            setImages(res.data.photos)
             
         })
         .catch(err => console.log(err))
@@ -37,8 +38,9 @@ const Favorites = () => {
     }, [refreshImage])
 
     // useEffect(() => {
-    //     // console.log('username', username)
-    // },)
+    //     console.log('imageobjectarr', imageObjectArray)
+    //     console.log('images',images)
+    // }, [images, imageObjectArray])
 
     // return(
     // <div>
@@ -109,7 +111,7 @@ const Favorites = () => {
                         margin: ''
                     }}
                     >
-                        {username.toUpperCase()}'s FAVORITES
+                        FEATURED
                     </Typography>
 
                     <ImageList 
@@ -122,9 +124,9 @@ const Favorites = () => {
                         width: "100%"
                     }}
                     >
-                    {imageObjectArray.map((imageObj) => (
-                        <ImageListItem key={imageObjectArray.image_properties}>
-                            <FavoriteImageCard image={imageObj.image_properties} id ={imageObj.id} setRefreshImage = {setRefreshImage}/>
+                    {images.map((imageProps) => (
+                        <ImageListItem key={imageObjectArray.photos}>
+                            <ImageCard image={imageProps} id ={imageProps.id} setRefreshImage = {setRefreshImage}/>
                         </ImageListItem>
                     ))}
                     </ImageList>
@@ -134,4 +136,4 @@ const Favorites = () => {
       );
 }
 
-export default Favorites
+export default Featured

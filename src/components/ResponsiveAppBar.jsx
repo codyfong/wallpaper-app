@@ -98,11 +98,11 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-                <MenuItem key={"Featured"} onClick={()=>navigate('/')}>
+                <MenuItem key={"Featured"} onClick={()=>navigate('/featured')}>
                   <Typography textAlign="center">Featured</Typography>
                 </MenuItem>
                 <MenuItem key={"Browse"} onClick={()=>navigate('/')}>
-                  <Typography textAlign="center">Browse</Typography>
+                  <Typography textAlign="center">Search</Typography>
                 </MenuItem>
                 <MenuItem key={"Favorites"} onClick={()=>navigate('/favorites')}>
                   <Typography textAlign="center">Your Favorites</Typography>
@@ -132,7 +132,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <Button
                 key={"Featured"}
-                onClick={()=>navigate('/')}
+                onClick={()=>navigate('/featured')}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 Featured
@@ -142,7 +142,7 @@ function ResponsiveAppBar() {
                 onClick={()=>navigate('/')}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                Browse
+                Search
             </Button>
             <Button
                 key={"Favorites"}

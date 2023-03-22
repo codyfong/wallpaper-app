@@ -2,55 +2,47 @@ import axios from 'axios'
 import {useState, useContext, useEffect} from 'react'
 import AuthContext from '../store/authContext'
 import serverURL from '../url'
-import FavoriteImageCard from './favoriteComponents/favoriteImageCard'
+import ImageCard from './homeComponents/imageCard'
 
 import * as React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Grid from '@mui/material/Grid';
 import { Paper, Typography } from '@mui/material'
-const Favorites = () => {
-    const {userId, token, username} = useContext(AuthContext)
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+
+const Featured = () => {
+    const {userId, token} = useContext(AuthContext)
     const [images, setImages] = useState([])
     const [imageObjectArray, setImageObjectArray] = useState([])
     const [refreshImage, setRefreshImage] = useState(false)
 
-    const getImages = async () => {
-        await axios
-        .post(`${serverURL}/favorites`, {userId}, {
-            headers: {
-                authorization: token
-            }
+    const [imageQuery, setImageQuery] = useState("")
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        const data = new FormData(event.currentTarget)
+        const query = data.get('search')
+        // alert(query)
+
+        axios
+        .post(`${serverURL}/photos`, {query}, {
+          headers: {
+            authorization: token
+        }
         })
         .then((res) => {
-            // console.log('imageobjectarray', res.data)
-            setImageObjectArray(res.data)
-            setImages(res.data.map((image) => image.image_properties))
-            
+            setImages(res.data.photos)
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log("error in getImages:", err))
     }
     
     useEffect(() => {
-        getImages()
+        // getImages()
         setRefreshImage(false)
     }, [refreshImage])
 
-    // useEffect(() => {
-    //     // console.log('username', username)
-    // },)
 
-    // return(
-    // <div>
-    //     <h1>Favorites</h1>
-    //     {/* {images.map( image => {
-    //       return(<FavoriteImageCard image={image}/>)
-    //     })} */}
-    //     {imageObjectArray.map( imageObj => {
-    //       return(<FavoriteImageCard image={imageObj.image_properties} id ={imageObj.id} setRefreshImage = {setRefreshImage}/>)
-    //     })}
-    // </div>
-    // )
     return (
         <Paper   
         square = {true}          
@@ -109,8 +101,31 @@ const Favorites = () => {
                         margin: ''
                     }}
                     >
-                        {username.toUpperCase()}'s FAVORITES
+                        SEARCH
                     </Typography>
+
+                        <Box
+                            component="form"
+                            sx={{
+                                '& > :not(style)': { m: 1, width: '50ch' },
+                            }}
+                            noValidate
+                            autoComplete="off"
+                            style ={{
+                                paddingTop: "15px"
+                            }}
+                            onSubmit={handleSubmit}
+                        >
+                        <TextField 
+                        required
+                        id="search" 
+                        type="search"
+                        name="search"
+                        label="Search" 
+                        variant="outlined" 
+                        autoFocus
+                        />
+                        </Box>
 
                     <ImageList 
                     sx={{ width: 1200, height: 750 }} cols={3} rowHeight={470}
@@ -122,9 +137,9 @@ const Favorites = () => {
                         width: "100%"
                     }}
                     >
-                    {imageObjectArray.map((imageObj) => (
-                        <ImageListItem key={imageObjectArray.image_properties}>
-                            <FavoriteImageCard image={imageObj.image_properties} id ={imageObj.id} setRefreshImage = {setRefreshImage}/>
+                    {images.map((imageProps) => (
+                        <ImageListItem key={imageObjectArray.photos}>
+                            <ImageCard image={imageProps} id ={imageProps.id} setRefreshImage = {setRefreshImage}/>
                         </ImageListItem>
                     ))}
                     </ImageList>
@@ -134,4 +149,4 @@ const Favorites = () => {
       );
 }
 
-export default Favorites
+export default Featured

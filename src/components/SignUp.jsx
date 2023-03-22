@@ -32,7 +32,12 @@ function Copyright(props) {
   );
 }
 
-const theme = createTheme();
+const theme = createTheme({
+  palette:{
+    mode: 'dark',
+
+  }
+});
 
 export default function SignUp() {
     const {login} = useContext(AuthContext)
@@ -58,7 +63,7 @@ export default function SignUp() {
             const {token, exp, userId} = res.data
             console.log('AFTER AUTH', res.data)
             login(token, exp, userId)
-            navigate('/')
+            navigate('/featured')
         })
         .catch(err => {
             // setPassword('')
@@ -80,9 +85,9 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
-          </Avatar>
+          </Avatar> */}
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
@@ -129,7 +134,7 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+        {/* <Copyright sx={{ mt: 5 }} /> */}
       </Container>
     </ThemeProvider>
   );

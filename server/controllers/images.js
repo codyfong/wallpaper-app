@@ -17,12 +17,8 @@ module.exports = {
     }, 
 
     getFeatured: async (req, res) => {
-        
-        console.log(req.body.query)
-
         const client = createClient(API_KEY);
-
-        client.photos.curated({ query, per_page: 150 })
+        client.photos.curated({ per_page: 150 })
         .then(photos => {
             res.send(photos)
         });

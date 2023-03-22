@@ -11,19 +11,19 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-const FavoriteImageCard = ({image, id, setRefreshImage}) => {
+const ImageCard = ({image, id, setRefreshImage}) => {
     const navigate = useNavigate()
     let {src} = image
     let url = src.large
     const {userId, token} = useContext(AuthContext)
     // console.log(userId)
-    const removeFavorite = (image_properties) => {
-        axios.delete(`${serverURL}/favorites/${id}`, {image_properties, userId, id}, {
+    const addFavorite = (image_properties) => {
+        console.log('addfav', image_properties)
+        axios.post(`${serverURL}/addfavorite`, {image_properties, userId}, {
             headers: {
                 authorization: token
             }
         })
-        // console.log('seterefresh')
         setRefreshImage(true)
     }
 
@@ -33,10 +33,6 @@ const FavoriteImageCard = ({image, id, setRefreshImage}) => {
     }
 
     return(
-        // <div className="image-card">
-        //     <img src={url} alt="missing image" onClick={()=>navigate(`/imagedetails/${image.id}`,{state: {image: image}})}></img>
-        //     <button onClick={(evt)=>removeFavorite(image)}>Remove Favorite</button>
-        // </div>
 
         <Card style={cardStyle} sx={{ boxShadow: 3 }}>
             <CardMedia
@@ -56,11 +52,11 @@ const FavoriteImageCard = ({image, id, setRefreshImage}) => {
             </CardContent>
             <CardActions>
                 <Button size="small" onClick={()=>navigate(`/imagedetails/${image.id}`,{state: {image: image}})}>About</Button>
-                <Button size="small" onClick={(evt)=>removeFavorite(image)}>Remove From Favorites</Button>
+                <Button size="small" onClick={()=>addFavorite(image)}>Add to Favorites</Button>
             </CardActions>
       </Card>
     );
 
 }
 
-export default FavoriteImageCard
+export default ImageCard

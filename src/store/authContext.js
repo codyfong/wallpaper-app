@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback, createContext } from 'react'
+import axios from 'axios'
+import serverURL from '../url'
 
 let logoutTimer
 
@@ -6,7 +8,8 @@ const AuthContext = createContext({
   token: '',
   login: () => {},
   logout: () => {},
-  userId: null
+  userId: null,
+  username: ''
 })
 
 const calculateRemainingTime = (exp) => {
@@ -48,15 +51,16 @@ export const AuthContextProvider = (props) => {
   if (localData) {
     initialToken = localData.token
     initialId = localData.userId
-    console.log(localData)
+    // console.log(localData)
   }
 
   const [token, setToken] = useState(initialToken)
   const [userId, setUserId] = useState(initialId)
+  const [username, setUsername] = useState('')
 
 
   const logout = useCallback(() => {
-    console.log('in logout')
+    // console.log('in logout')
     setToken(null)
     setUserId(null)
     localStorage.removeItem('token')
@@ -71,7 +75,7 @@ export const AuthContextProvider = (props) => {
   const login = (token, exp, userId) => {
     setToken(token)
     setUserId(userId)
-    console.log('in login',userId)
+    // console.log('in login',userId)
     localStorage.setItem('token', token)
     localStorage.setItem('exp', exp)
     localStorage.setItem('userId', userId)
@@ -87,11 +91,24 @@ export const AuthContextProvider = (props) => {
     }
   }, [localData, logout])
 
+
+  const findUsername = () => {
+    axios.get(`${serverURL}/getusername/${userId}`)
+    // .then((res) => setUsername(res.data))
+    .then((res) => setUsername(res.data[0].username))
+    .catch((err)=>console.log('could not get username',err))
+  }
+
+  useEffect(() => {
+    findUsername()
+  },[username])
+    
   const contextValue = {
     token,
     login,
     logout, 
-    userId
+    userId,
+    username
   }
 
   return (

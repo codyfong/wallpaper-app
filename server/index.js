@@ -12,7 +12,7 @@ const { Favorite } = require('./models/favorites')
 
 const {isAuthenticated} = require('./middleware/isAuthenticated')
 
-const {getPhotos} = require('./controllers/images')
+const {getPhotos, getFeatured} = require('./controllers/images')
 const {register, login} = require('./controllers/auth')
 const { addFavorite, getFavorites, deleteFavorite } = require('./controllers/favorites')
 
@@ -23,18 +23,38 @@ app.use(cors())
 User.hasMany(Favorite)
 Favorite.belongsTo(User)
 
+
 //AUTH
 app.post('/register', register)
 app.post('/login', login)
-// app.get('/username:id', getUsername)
+
 
 //GET PHOTOS
 app.post('/photos', isAuthenticated,  getPhotos)
+app.post('/featured', getFeatured)
 
 //FAVORITES
 app.post('/addfavorite', isAuthenticated, addFavorite)
 app.post('/favorites', isAuthenticated, getFavorites)
 app.delete('/favorites/:id', deleteFavorite)
+
+const getUsername = async (req, res) => {
+    try{
+        const {userId} = req.params
+        const user = await User.findAll({
+            where: {id: userId},
+            
+        })
+        res.status(200).send(user)
+    }
+    catch(error){
+        console.log('error in username', error)
+        res.sendStatus(400)
+    }
+}
+
+//GET USERNAME
+app.get('/getusername/:userId', getUsername)
 
 
 // app.listen(PORT, () => console.log(`db sync successful & server running on port ${PORT}`))
