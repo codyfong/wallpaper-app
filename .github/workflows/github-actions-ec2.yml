@@ -44,11 +44,11 @@ jobs:
             key: ${{ secrets.EC2_SSH_KEY }}
             script: |
               sudo apt remove nodejs npm
-              sudo apt update
+              sudo apt-get update
               curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh
               sudo bash nodesource_setup.sh
-              sudo apt install nodejs -y
-              sudo apt install npm -y
+              sudo apt-get install nodejs -y
+              sudo apt-get install npm -y
               cd  server
               npm install
               npm build
@@ -61,12 +61,13 @@ jobs:
             key: ${{ secrets.EC2_SSH_KEY }}
             script: |
               sudo apt remove nodejs npm
-              sudo apt update
+              sudo apt-get update
               curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh
               sudo bash nodesource_setup.sh
-              sudo apt install nodejs -y
-              sudo apt install npm -y
+              sudo apt-get install nodejs -y
+              sudo apt-get install npm -y
               cd  src
               npm install
               npm build
               npm start
+              
