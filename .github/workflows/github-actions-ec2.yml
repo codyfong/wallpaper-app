@@ -43,8 +43,9 @@ jobs:
             username: ${{ secrets.USERNAME }}
             key: ${{ secrets.EC2_SSH_KEY }}
             script: |
-              apt install nodejs
-              apt install npm
+              sudo apt update
+              sudo apt install nodejs
+              sudo apt install npm
               cd  server
               npm install
               npm build
@@ -56,8 +57,9 @@ jobs:
             username: ${{ secrets.USERNAME }}
             key: ${{ secrets.EC2_SSH_KEY }}
             script: |
-              apt install nodejs
-              apt install npm
+              sudo apt update
+              sudo apt install nodejs
+              sudo apt install npm
               cd  src
               npm install
               npm build
