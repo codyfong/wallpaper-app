@@ -1,0 +1,60 @@
+name: Push-to-EC2
+
+# Trigger deployment only on push to master branch
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: Deploy to EC2 on master branch push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the files
+        uses: actions/checkout@v2
+
+      - name: Deploy Frontend
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.FRONTEND_HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          # TARGET: ${{ secrets.TARGET_DIR }}
+
+      - name: Deploy Backend
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.BACKEND_HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          # TARGET: ${{ secrets.TARGET_DIR }}
+
+  build:
+      name: Build
+      runs-on: ubuntu-latest
+      steps:
+        - name: build and run backend
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.BACKEND_HOST_DNS }}
+            username: ${{ secrets.USERNAME }}
+            key: ${{ secrets.EC2_SSH_KEY }}
+            script: |
+              cd  server
+              npm install
+              npm build
+              node
+      steps:
+        - name: build and run front end
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.FRONTEND_HOST_DNS }}
+            username: ${{ secrets.USERNAME }}
+            key: ${{ secrets.EC2_SSH_KEY }}
+            script: |
+              cd  src
+              npm install
+              npm build
+              npm start
