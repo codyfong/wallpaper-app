@@ -52,7 +52,7 @@ jobs:
               sudo apt-get install npm -y
               cd  server
               npm install
-              npm build
+              npm run build
               node
         - name: build and run front end
           uses: appleboy/ssh-action@master
@@ -70,6 +70,7 @@ jobs:
               sudo apt-get install npm -y
               cd  src
               npm install
-              npm build
+              npm run build
+              export PORT 80
               npm start
               
