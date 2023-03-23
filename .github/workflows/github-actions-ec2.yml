@@ -69,7 +69,7 @@ jobs:
               sudo apt-get install npm -y
               cd  src
               npm install
-              npm i -g serve
+              npm i serve
               sudo npm run build
               serve -s build
               
