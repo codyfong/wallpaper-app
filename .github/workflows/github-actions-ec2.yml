@@ -69,6 +69,6 @@ jobs:
               sudo apt-get install npm -y
               cd  src
               npm install
-              export PORT=80
+
               npm start
               
