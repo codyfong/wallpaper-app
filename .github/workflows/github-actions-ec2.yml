@@ -44,8 +44,8 @@ jobs:
             key: ${{ secrets.EC2_SSH_KEY }}
             script: |
               sudo apt update
-              sudo apt install nodejs
-              sudo apt install npm
+              sudo apt install nodejs -y
+              sudo apt install npm -y
               cd  server
               npm install
               npm build
@@ -58,8 +58,8 @@ jobs:
             key: ${{ secrets.EC2_SSH_KEY }}
             script: |
               sudo apt update
-              sudo apt install nodejs
-              sudo apt install npm
+              sudo apt install nodejs -y
+              sudo apt install npm -y
               cd  src
               npm install
               npm build
