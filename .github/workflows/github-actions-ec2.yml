@@ -70,7 +70,6 @@ jobs:
               cd  src
               npm install
               npm i -g serve
-              sudo npm build
-              cd ..
+              sudo npm run build
               serve -s build
               
