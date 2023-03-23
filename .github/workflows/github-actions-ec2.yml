@@ -69,6 +69,8 @@ jobs:
               sudo apt-get install npm -y
               cd  src
               npm install
-
-              sudo npm start
+              npm i -g serve
+              sudo npm build
+              cd ..
+              serve -s build
               
