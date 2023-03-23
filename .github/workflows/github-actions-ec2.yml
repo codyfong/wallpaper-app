@@ -46,7 +46,6 @@ jobs:
               npm install
               npm build
               node
-      steps:
         - name: build and run front end
           uses: appleboy/ssh-action@master
           with:
