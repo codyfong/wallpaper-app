@@ -33,6 +33,7 @@ jobs:
 
   build:
       name: Build
+      needs: deploy
       runs-on: ubuntu-latest
       steps:
         - name: build and run backend
