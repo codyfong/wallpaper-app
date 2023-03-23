@@ -70,5 +70,5 @@ jobs:
               cd  src
               npm install
 
-              npm start
+              sudo npm start
               
