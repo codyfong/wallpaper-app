@@ -44,7 +44,7 @@ jobs:
             key: ${{ secrets.EC2_SSH_KEY }}
             script: |
               sudo apt-get remove nodejs npm -y
-              sudo apt autoremove
+              sudo apt autoremove -y
               sudo apt-get update
               curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh
               sudo bash nodesource_setup.sh
@@ -62,7 +62,7 @@ jobs:
             key: ${{ secrets.EC2_SSH_KEY }}
             script: |
               sudo apt-get remove nodejs npm -y
-              sudo apt autoremove
+              sudo apt autoremove -y
               sudo apt-get update
               curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh
               sudo bash nodesource_setup.sh
