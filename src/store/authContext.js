@@ -101,7 +101,7 @@ export const AuthContextProvider = (props) => {
 
   useEffect(() => {
     findUsername()
-  },[username])
+  },[username,findUsername])
     
   const contextValue = {
     token,
