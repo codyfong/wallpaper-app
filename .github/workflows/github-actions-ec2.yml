@@ -67,9 +67,10 @@ jobs:
               sudo bash nodesource_setup.sh
               sudo apt-get install nodejs -y
               sudo apt-get install npm -y
+              npm uninstall -g serve
               cd  src
               npm install
-              npm i serve
+              npm install serve
               sudo npm run build
               serve -s build
               
