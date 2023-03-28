@@ -60,11 +60,16 @@ app.get('/getusername/:userId', getUsername)
 
 
 // app.listen(PORT, () => console.log(`db sync successful & server running on port ${PORT}`))
+const https_options = {
+    ca: fs.readFileSync("ca_bundle.crt"),
+    key: fs.readFileSync("private.key"),
+    cert: fs.readFileSync("certificate.crt")
+   };
 
 sequelize.sync()
 // sequelize.sync({ force: true })
 // the force: true is for development -- it DROPS tables!!!
 .then(() => {
-    https.createServer(app).listen(PORT, () => console.log(`db sync successful & server running on port ${PORT}`))
+    https.createServer(https_options, app).listen(PORT, () => console.log(`db sync successful & server running on port ${PORT}`))
 })
 .catch(err => console.log(err))
