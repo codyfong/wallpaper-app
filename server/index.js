@@ -1,8 +1,10 @@
 require('dotenv').config()
+const https = require('https');
 
 const express = require('express')
 const cors = require('cors')
 const app = express()
+
 
 const {sequelize} = require('./util/database')
 const {PORT} = process.env
@@ -63,6 +65,6 @@ sequelize.sync()
 // sequelize.sync({ force: true })
 // the force: true is for development -- it DROPS tables!!!
 .then(() => {
-    app.listen(PORT, () => console.log(`db sync successful & server running on port ${PORT}`))
+    https.createServer(app).listen(PORT, () => console.log(`db sync successful & server running on port ${PORT}`))
 })
 .catch(err => console.log(err))
