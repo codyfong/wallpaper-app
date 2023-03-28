@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'))
 
 root.render(
   <React.StrictMode>
-    <meta http-equiv="Content-Security-Policy"
+    <meta http-equiv="Content-Security-Policy-Report-Only"
             content="default-src https: 'unsafe-inline' 'unsafe-eval'" />
     <AuthContextProvider>
     <BrowserRouter>
